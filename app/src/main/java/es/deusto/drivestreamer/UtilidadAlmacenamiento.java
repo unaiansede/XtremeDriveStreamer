@@ -9,9 +9,6 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-/**
- * Created by UNAI on 2017/11/08.
- */
 
 public class UtilidadAlmacenamiento {
     private final String STORAGE = " com.valdioveliu.valdio.audioplayer.STORAGE";
