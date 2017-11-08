@@ -35,7 +35,7 @@ public class ActividadPrincipal extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.principal_actividad);
         //playAudio("https://upload.wikimedia.org/wikipedia/commons/6/6c/Grieg_Lyric_Pieces_Kobold.ogg");
-        // hii
+        
         loadAudio();
         playAudio(5);
         //play the first audio in the ArrayList
