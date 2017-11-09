@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/Lista"
+        android:layout_width="match_parent"
+        android:layout_height="472dp"
+        android:scrollbars="vertical" >
+
+    </android.support.v7.widget.RecyclerView>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageButton
+            android:id="@+id/imageButton2"
+            android:layout_width="33dp"
+            android:layout_height="36dp"
+            app:srcCompat="@android:drawable/ic_media_rew"
+            tools:layout_editor_absoluteX="133dp"
+            tools:layout_editor_absoluteY="325dp" />
+
+        <ImageButton
+            android:id="@+id/imageButton3"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            app:srcCompat="@android:drawable/ic_media_play"
+            tools:layout_editor_absoluteY="324dp"
+            tools:layout_editor_absoluteX="166dp" />
+
+        <ImageButton
+            android:id="@+id/imageButton4"
+            android:layout_width="34dp"
+            android:layout_height="33dp"
+            app:srcCompat="@android:drawable/ic_media_ff"
+            tools:layout_editor_absoluteX="220dp"
+            tools:layout_editor_absoluteY="164dp" />
+        //P
+
+        <ProgressBar
+            android:id="@+id/progressBar3"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="143dp"
+            android:layout_height="36dp"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="1dp" />
+
+    </android.support.constraint.ConstraintLayout>
+</LinearLayout>
