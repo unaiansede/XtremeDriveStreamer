@@ -19,28 +19,31 @@
         android:layout_height="match_parent">
 
         <ImageButton
-            android:id="@+id/imageButton3"
+            android:id="@+id/Play"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@android:drawable/ic_media_play"
             android:layout_alignParentTop="true"
-            android:layout_toStartOf="@+id/imageButton5" />
+            android:layout_toStartOf="@+id/Next"
+            android:background="@android:color/holo_red_dark"
+            app:srcCompat="@android:drawable/ic_media_play" />
 
         <ImageButton
-            android:id="@+id/imageButton4"
+            android:id="@+id/Previous"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toStartOf="@+id/imageButton3"
-            app:srcCompat="@android:drawable/ic_media_previous" />
+            android:background="@android:color/holo_red_dark"
+            app:srcCompat="@android:drawable/ic_media_previous"
+            android:layout_alignParentTop="true"
+            android:layout_toStartOf="@+id/Play" />
 
         <ImageButton
-            android:id="@+id/imageButton5"
+            android:id="@+id/Next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@android:drawable/ic_media_next"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true" />
+            android:background="@android:color/holo_red_dark"
+            app:srcCompat="@android:drawable/ic_media_next" />
 
         <ProgressBar
             android:id="@+id/progressBar3"
@@ -48,7 +51,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toStartOf="@+id/imageButton4" />
+            android:layout_toStartOf="@+id/Previous" />
 
         <TextView
             android:id="@+id/textView"
