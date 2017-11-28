@@ -25,16 +25,18 @@
             android:layout_alignParentTop="true"
             android:layout_toStartOf="@+id/Next"
             android:background="@android:color/holo_red_dark"
+            android:visibility="visible"
             app:srcCompat="@android:drawable/ic_media_play" />
 
         <ImageButton
             android:id="@+id/Previous"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@android:color/holo_red_dark"
-            app:srcCompat="@android:drawable/ic_media_previous"
             android:layout_alignParentTop="true"
-            android:layout_toStartOf="@+id/Play" />
+            android:layout_toStartOf="@+id/Play"
+            android:background="@android:color/holo_red_dark"
+            android:visibility="visible"
+            app:srcCompat="@android:drawable/ic_media_previous" />
 
         <ImageButton
             android:id="@+id/Next"
@@ -43,6 +45,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
             android:background="@android:color/holo_red_dark"
+            android:visibility="visible"
             app:srcCompat="@android:drawable/ic_media_next" />
 
         <ProgressBar
