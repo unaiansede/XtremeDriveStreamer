@@ -27,7 +27,7 @@ public class BD extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
         //Encuanto detecte un cambio lanzara este metodo con el fin de actualizar la bd
         db.execSQL("DROP TABLE IF EXISTS Playlist");
-        db.execSQL(sql);
+        db.execSQL(sql);//
 
 
     }
