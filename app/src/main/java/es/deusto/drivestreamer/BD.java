@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 /**
  * Created by asier on 17/12/2017.
  * Creada en SQLiteOpen.
- * Estructura Un identificador nombre y canciones.
+ * Estructura: Un identificador nombre y canciones.
  */
 
 public class BD extends SQLiteOpenHelper {
