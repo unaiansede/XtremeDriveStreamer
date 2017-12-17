@@ -13,6 +13,8 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -33,9 +35,19 @@ public class ActividadPrincipal extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.principal_actividad);
+        setContentView(R.layout.activity_main);
+
+        final ImageButton buttonOne = (ImageButton) findViewById(R.id.Play);
+        buttonOne.setOnClickListener(new ImageButton.OnClickListener() {
+            public void onClick(View v) {
+                if(true) {
+
+                }
+
+            }
+        });
         //playAudio("https://upload.wikimedia.org/wikipedia/commons/6/6c/Grieg_Lyric_Pieces_Kobold.ogg");
-        
+
         loadAudio();
         playAudio(5);
         //play the first audio in the ArrayList

@@ -178,7 +178,7 @@ public class ServicioReproductor extends Service
     }
 
     // Si no se esta reproduciendo, empieza a reproducir
-    private void playMedia() {
+    protected void playMedia() {
         if (!reproductorAudio.isPlaying()) {
             reproductorAudio.start();
         }
@@ -193,7 +193,7 @@ public class ServicioReproductor extends Service
     }
 
     // Pausa el reproductorAudio y guarda la posicion en la que estaba
-    private void pauseMedia() {
+    protected void pauseMedia() {
         if (reproductorAudio.isPlaying()) {
             reproductorAudio.pause();
             posicionResumen = reproductorAudio.getCurrentPosition();
