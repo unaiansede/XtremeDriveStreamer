@@ -163,7 +163,7 @@ public class ServicioReproductor extends Service
         reproductorAudio.setOnBufferingUpdateListener(this);
         reproductorAudio.setOnSeekCompleteListener(this);
         reproductorAudio.setOnInfoListener(this);
-        // Resetear el reproductorAudio para indicarle un nuevo directoria de fichero
+        // Resetear el reproductorAudio para indicarle un nuevo directorio de fichero
         reproductorAudio.reset();
 
         reproductorAudio.setAudioStreamType(AudioManager.STREAM_MUSIC);
@@ -176,6 +176,8 @@ public class ServicioReproductor extends Service
         }
         reproductorAudio.prepareAsync();
     }
+
+
 
     // Si no se esta reproduciendo, empieza a reproducir
     protected void playMedia() {
@@ -418,6 +420,8 @@ public class ServicioReproductor extends Service
             buildNotification(PlaybackStatus.PLAYING);
         }
     };
+
+
 
     private void register_playNewAudio() {
         //Register playNewMedia receiver
