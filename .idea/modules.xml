@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/DriveStreamer.iml" filepath="$PROJECT_DIR$/DriveStreamer.iml" />
+      <module fileurl="file://C:\Users\asiir\StudioProjects\XtremeDriveStreamer\DriveStreamer.iml" filepath="C:\Users\asiir\StudioProjects\XtremeDriveStreamer\DriveStreamer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/XtremeDriveStreamer.iml" filepath="$PROJECT_DIR$/XtremeDriveStreamer.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
