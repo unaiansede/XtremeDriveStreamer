@@ -27,6 +27,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".GoogleDriveListaArchivos" />
+        <activity android:name=".GoogleDriveLista" />
+        <activity android:name=".GoogleDriveDescarga" />
 
         // Declaracion del ServicioReproductor
         <service android:name=".ServicioReproductor" />
