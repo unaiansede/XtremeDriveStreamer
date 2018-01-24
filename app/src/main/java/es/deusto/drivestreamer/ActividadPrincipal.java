@@ -30,6 +30,7 @@ import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.common.api.Scope;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -40,6 +41,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.Set;
+import java.util.HashSet;
 
 
 public class ActividadPrincipal extends AppCompatActivity {
@@ -61,49 +64,13 @@ public class ActividadPrincipal extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mGoogleSignInClient = buildGoogleSignInClient();
-        updateViewWithGoogleSignInAccountTask(mGoogleSignInClient.silentSignIn());
-
-
-        Task<DriveContents> openFileTask =
-                mDriveResourceClient.openFile(archivoDrive, DriveFile.MODE_READ_ONLY);
-        openFileTask
-                .continueWithTask(new Continuation<DriveContents, Task<Void>>() {
-                    @Override
-                    public Task<Void> then(@NonNull Task<DriveContents> task) throws Exception {
-                        DriveContents contents = task.getResult();
-                        // Process contents...
-
-                        String contenidosArchivo = "";
-                        try (
-                                BufferedReader reader = new BufferedReader(
-                                new InputStreamReader(contents.getInputStream()))) {
-                            StringBuilder builder = new StringBuilder();
-                            String line;
-                            while ((line = reader.readLine()) != null) {
-                                builder.append(line).append("\n");
-                            }
-                            contenidosArchivo = builder.toString();
-                        }
-                        writeToFile(contenidosArchivo);
-
-
-                        Task<Void> discardTask = mDriveResourceClient.discardContents(contents);
-                        return discardTask;
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        // Handle failure
-                    }
-                });
-
-
 
         setContentView(R.layout.activity_main);
 
-        final ImageButton buttonOne = (ImageButton) findViewById(R.id.Play);
+        Intent intent = new Intent(getBaseContext(), GoogleDriveDescarga.class);
+        startActivity(intent);
+
+        /*final ImageButton buttonOne = (ImageButton) findViewById(R.id.Play);
         buttonOne.setOnClickListener(new ImageButton.OnClickListener() {
             public void onClick(View v) {
                 if(true) {
@@ -112,6 +79,7 @@ public class ActividadPrincipal extends AppCompatActivity {
 
             }
         });
+        */
         //playAudio("https://upload.wikimedia.org/wikipedia/commons/6/6c/Grieg_Lyric_Pieces_Kobold.ogg");
 
         //loadAudio();
@@ -121,6 +89,8 @@ public class ActividadPrincipal extends AppCompatActivity {
         //playAudio(listaCanciones.get(0).getData());
 
     }
+
+
 
     private void writeToFile(String data) {
         try {
