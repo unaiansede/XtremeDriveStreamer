@@ -3,11 +3,17 @@ package es.deusto.drivestreamer;
 /**
  * Created by UNAI on 2018/01/22.
  */
+import android.content.ContentResolver;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.google.android.gms.drive.DriveFile;
 import com.google.android.gms.drive.Metadata;
 import com.google.android.gms.drive.MetadataBuffer;
 import com.google.android.gms.drive.query.Filters;
@@ -18,21 +24,32 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
+import java.util.ArrayList;
+
 /**
  * An activity to illustrate how to query files.
  */
 public class GoogleDriveListaArchivos extends GoogleDrive {
     private static final String TAG = "QueryFiles";
 
+    ArrayList<Audio> listaCanciones;
     private DataBufferAdapter<Metadata> mResultsAdapter;
 
     @Override
     protected void onCreate(Bundle b) {
         super.onCreate(b);
         setContentView(R.layout.activity_contenido_drive);
-        ListView mListView = (ListView) findViewById(R.id.listContenido);
+        final ListView mListView = (ListView) findViewById(R.id.listContenido);
         mResultsAdapter = new ResultsAdapter(this);
         mListView.setAdapter(mResultsAdapter);
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+
+            }
+        });
     }
 
     @Override
@@ -71,6 +88,8 @@ public class GoogleDriveListaArchivos extends GoogleDrive {
                                 // [START_EXCLUDE]
                                 System.out.println("añadido");
                                 mResultsAdapter.append(metadataBuffer);
+
+
                                 // [END_EXCLUDE]
                             }
                         })

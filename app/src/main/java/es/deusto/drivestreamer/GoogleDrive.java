@@ -47,6 +47,8 @@ public abstract class GoogleDrive extends Activity {
      */
     protected static final int REQUEST_CODE_OPEN_ITEM = 1;
 
+    private static final Scope READ_ONLY = new Scope("https://www.googleapis.com/auth/drive.readonly");
+
     /**
      * Handles high-level drive functions like sync
      */
@@ -114,7 +116,9 @@ public abstract class GoogleDrive extends Activity {
         Set<Scope> requiredScopes = new HashSet<>(2);
         requiredScopes.add(Drive.SCOPE_FILE);
         requiredScopes.add(Drive.SCOPE_APPFOLDER);
+        //requiredScopes.add(this.READ_ONLY);
         GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(this);
+        signInAccount = null;
         if (signInAccount != null && signInAccount.getGrantedScopes().containsAll(requiredScopes)) {
             initializeDriveClient(signInAccount);
         } else {
@@ -122,6 +126,7 @@ public abstract class GoogleDrive extends Activity {
                     new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                             .requestScopes(Drive.SCOPE_FILE)
                             .requestScopes(Drive.SCOPE_APPFOLDER)
+                            //.requestScopes(Drive.SCOPE_APPFOLDER)
                             .build();
             GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(this, signInOptions);
             startActivityForResult(googleSignInClient.getSignInIntent(), REQUEST_CODE_SIGN_IN);
@@ -147,6 +152,15 @@ public abstract class GoogleDrive extends Activity {
         OpenFileActivityOptions openOptions =
                 new OpenFileActivityOptions.Builder()
                         .setSelectionFilter(Filters.eq(SearchableField.MIME_TYPE, "text/plain"))
+                        .setActivityTitle(getString(R.string.app_name))
+                        .build();
+        return pickItem(openOptions);
+    }
+
+    protected Task<DriveId> seleccionarAudio() {
+        OpenFileActivityOptions openOptions =
+                new OpenFileActivityOptions.Builder()
+                        .setSelectionFilter(Filters.eq(SearchableField.MIME_TYPE, "audio/mpeg"))
                         .setActivityTitle(getString(R.string.app_name))
                         .build();
         return pickItem(openOptions);

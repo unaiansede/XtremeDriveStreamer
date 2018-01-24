@@ -6,65 +6,55 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/Lista"
+
+    <ListView
+        android:id="@+id/listaCancionesGDrive"
         android:layout_width="match_parent"
-        android:layout_height="472dp"
-        android:scrollbars="vertical" >
+        android:layout_height="450dp"></ListView>
 
-    </android.support.v7.widget.RecyclerView>
-
-    <RelativeLayout
+    <ListView
+        android:id="@+id/listaCanciones"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="450dp"></ListView>
 
-        <ImageButton
-            android:id="@+id/Play"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_weight="1"
+        android:gravity="right"
+        android:orientation="horizontal">
+
+
+        <Button
+            android:id="@+id/botonRewind"
+            style="android.R.drawable.ic_media_previous"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|center"
+            android:text="ATRAS" />
+
+        <Button
+            android:id="@+id/botonPausa"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|center"
+            android:text="·" />
+
+        <Button
+            android:id="@+id/botonForward"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|center"
+            android:text=">>" />
+
+        <Button
+            android:id="@+id/botonGDrive"
+            style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_toStartOf="@+id/Next"
-            android:background="@android:color/holo_red_dark"
-            android:visibility="visible"
-            app:srcCompat="@android:drawable/ic_media_play" />
-
-        <ImageButton
-            android:id="@+id/Previous"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_toStartOf="@+id/Play"
-            android:background="@android:color/holo_red_dark"
-            android:visibility="visible"
-            app:srcCompat="@android:drawable/ic_media_previous" />
-
-        <ImageButton
-            android:id="@+id/Next"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true"
-            android:background="@android:color/holo_red_dark"
-            android:visibility="visible"
-            app:srcCompat="@android:drawable/ic_media_next" />
-
-        <ProgressBar
-            android:id="@+id/progressBar3"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toStartOf="@+id/Previous" />
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:text="Nombre canción"
-            android:layout_toStartOf="@+id/progressBar3"
-            android:layout_alignTop="@+id/progressBar3" />
-
-    </RelativeLayout>
-
+            android:layout_gravity="center_horizontal|center"
+            android:text="GDrive" />
+    </LinearLayout>
 </LinearLayout>

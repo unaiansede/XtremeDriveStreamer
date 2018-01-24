@@ -17,7 +17,11 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.* ;
@@ -49,26 +53,25 @@ public class ActividadPrincipal extends AppCompatActivity {
 
     private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123123;
     private static final String TAG = "Conectarse a drive";
-    private ServicioReproductor reproductor;
+    protected static ServicioReproductor reproductor;
     boolean servicioConectado = false;
-    ArrayList<Audio> listaCanciones;
+    protected static ArrayList<Audio> listaCanciones;
     public static final String Broadcast_PLAY_NEW_AUDIO = "es.deusto.drivestreamer.PlayNewAudio";
-
-
-    private GoogleSignInClient mGoogleSignInClient;
-    private DriveClient mDriveClient;
-    private DriveResourceClient mDriveResourceClient;
-    private DriveFile archivoDrive;
+    protected static ListView listView;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
 
-        Intent intent = new Intent(getBaseContext(), GoogleDriveDescarga.class);
-        startActivity(intent);
+        loadAudio();
+        cargarVistaCanciones();
+
+
+
+        //Intent intent = new Intent(getBaseContext(), GoogleDriveListaArchivos.class);
+        //startActivity(intent);
 
         /*final ImageButton buttonOne = (ImageButton) findViewById(R.id.Play);
         buttonOne.setOnClickListener(new ImageButton.OnClickListener() {
@@ -80,7 +83,6 @@ public class ActividadPrincipal extends AppCompatActivity {
             }
         });
         */
-        //playAudio("https://upload.wikimedia.org/wikipedia/commons/6/6c/Grieg_Lyric_Pieces_Kobold.ogg");
 
         //loadAudio();
         //playAudio(5);
@@ -91,63 +93,73 @@ public class ActividadPrincipal extends AppCompatActivity {
     }
 
 
+    public void cargarVistaCanciones(){
+        listView = (ListView) findViewById(R.id.listaCanciones);
+        GoogleDriveCanciones.listaView = (ListView) findViewById(R.id.listaCancionesGDrive);
 
-    private void writeToFile(String data) {
-        try {
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(this.openFileOutput("archivoTemp.mp3", this.MODE_PRIVATE));
-            outputStreamWriter.write(data);
-            outputStreamWriter.close();
+        final ArrayList<String> nombreCanciones = new ArrayList<>();
+
+        for(int i = 0;i<listaCanciones.size();i++){
+            nombreCanciones.add(listaCanciones.get(i).getTitle());
+
         }
-        catch (IOException e) {
-            Log.e("Exception", "File write failed: " + e.toString());
-        }
+
+        final ArrayAdapter adaptador = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, nombreCanciones);
+        listView.setAdapter(adaptador);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                playAudio(position);
+            }
+        });
+
+        Button botonRewind = (Button) findViewById(R.id.botonRewind);
+        botonRewind.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+               reproductor.skipToPrevious();
+            }
+        });
+
+        Button botonPausa = (Button) findViewById(R.id.botonPausa);
+        botonPausa.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                if(reproductor.reproduciendo()){
+                    reproductor.pauseMedia();
+                } else{
+                    reproductor.resumeMedia();
+                }
+            }
+        });
+
+        Button botonForward = (Button) findViewById(R.id.botonForward);
+        botonForward.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                reproductor.skipToNext();
+            }
+        });
+
+        Button botonGDrive = (Button) findViewById(R.id.botonGDrive);
+        botonGDrive.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                if(findViewById(R.id.listaCanciones).isShown()) {
+                    reproductor.setAudioList(GoogleDriveCanciones.listaCanciones);
+                    findViewById(R.id.listaCanciones).setVisibility(View.INVISIBLE);
+                    findViewById(R.id.listaCancionesGDrive).setVisibility(View.VISIBLE);
+                }else{
+                    reproductor.setAudioList(listaCanciones);
+                    findViewById(R.id.listaCanciones).setVisibility(View.VISIBLE);
+                    findViewById(R.id.listaCancionesGDrive).setVisibility(View.INVISIBLE);
+                }
+            }
+        });
+
+        //Intent intent = new Intent(getBaseContext(), GoogleDriveCanciones.class);
+        //startActivity(intent);
+        findViewById(R.id.listaCancionesGDrive).setVisibility(View.INVISIBLE);
+
     }
-
-    private GoogleSignInClient buildGoogleSignInClient() {
-        GoogleSignInOptions signInOptions =
-                new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                        .requestScopes(Drive.SCOPE_FILE)
-                        .build();
-        return GoogleSignIn.getClient(this, signInOptions);
-    }
-
-    private void updateViewWithGoogleSignInAccountTask(Task<GoogleSignInAccount> task) {
-        Log.i(TAG, "Update view with sign in account task");
-        task.addOnSuccessListener(
-                new OnSuccessListener<GoogleSignInAccount>() {
-                    @Override
-                    public void onSuccess(GoogleSignInAccount googleSignInAccount) {
-                        Log.i(TAG, "Sign in success");
-                        // Build a drive client.
-                        mDriveClient = Drive.getDriveClient(getApplicationContext(), googleSignInAccount);
-                        // Build a drive resource client.
-                        mDriveResourceClient = Drive.getDriveResourceClient(getApplicationContext(), googleSignInAccount);
-
-                    }
-                })
-                .addOnFailureListener(
-                        new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.w(TAG, "Sign in failed", e);
-                            }
-                        });
-    }
-
-    public void reproducir(String path, String fileName){
-        //set up MediaPlayer
-        MediaPlayer mp = new MediaPlayer();
-
-        try {
-
-            mp.setDataSource(path + File.separator + fileName);
-            mp.prepare();
-            mp.start();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
 
 
     // Conectando el cliente al servicio AudioPlayer
@@ -159,7 +171,7 @@ public class ActividadPrincipal extends AppCompatActivity {
             reproductor = binder.getService();
             servicioConectado  = true;
 
-            Toast.makeText(ActividadPrincipal.this, "Service Bound", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(ActividadPrincipal.this, "Service Bound", Toast.LENGTH_SHORT).show();
         }
 
         @Override
@@ -167,7 +179,6 @@ public class ActividadPrincipal extends AppCompatActivity {
             servicioConectado  = false;
         }
     };
-
 
     private void playAudio(int audioIndex) {
         // Comprueba si el servicio esta activo y lo inicia si no esta
@@ -191,7 +202,6 @@ public class ActividadPrincipal extends AppCompatActivity {
             sendBroadcast(broadcastIntent);
         }
     }
-
 
     // Estos tres metodos guardan y restauran el estado del servicio cuando el usuario cierra/abre la aplicacion
     @Override

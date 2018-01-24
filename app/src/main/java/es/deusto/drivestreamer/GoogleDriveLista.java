@@ -79,7 +79,7 @@ public class GoogleDriveLista extends GoogleDrive {
                 .build();
 
         // [START query_children]
-        Task<MetadataBuffer> queryTask = getDriveResourceClient().queryChildren(folder, query);
+        Task<MetadataBuffer> queryTask = getDriveResourceClient().queryChildren(folder,query);
         // END query_children]
         queryTask
                 .addOnSuccessListener(this,
@@ -87,6 +87,7 @@ public class GoogleDriveLista extends GoogleDrive {
                             @Override
                             public void onSuccess(MetadataBuffer metadataBuffer) {
                                 mResultsAdapter.append(metadataBuffer);
+                                Log.d(TAG,"Archivos en carpeta: " + metadataBuffer.getCount());
                             }
                         })
                 .addOnFailureListener(this, new OnFailureListener() {

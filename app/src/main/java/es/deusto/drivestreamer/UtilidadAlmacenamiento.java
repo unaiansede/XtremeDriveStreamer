@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 
 public class UtilidadAlmacenamiento {
-    private final String STORAGE = " com.valdioveliu.valdio.audioplayer.STORAGE";
+    private final String STORAGE = "es.deusto.drivestreamer.STORAGE";
     private SharedPreferences preferences;
     private Context context;
 

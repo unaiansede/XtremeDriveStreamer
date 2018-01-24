@@ -30,6 +30,7 @@
         <activity android:name=".GoogleDriveListaArchivos" />
         <activity android:name=".GoogleDriveLista" />
         <activity android:name=".GoogleDriveDescarga" />
+        <activity android:name=".GoogleDriveCanciones" />
 
         // Declaracion del ServicioReproductor
         <service android:name=".ServicioReproductor" />

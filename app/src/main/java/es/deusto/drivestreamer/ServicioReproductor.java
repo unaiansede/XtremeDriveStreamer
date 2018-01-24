@@ -39,6 +39,7 @@ public class ServicioReproductor extends Service
 
     private MediaPlayer reproductorAudio;
 
+
     // Ruta del fichero a reproducir
     private String ficheroContenido;
 
@@ -50,11 +51,11 @@ public class ServicioReproductor extends Service
     private int audioIndex = -1;
     private Audio activeAudio; // Un objeto que indica la cancion que se esta reproduciendo actualmente
 
-    public static final String ACTION_PLAY = "com.valdioveliu.valdio.audioplayer.ACTION_PLAY";
-    public static final String ACTION_PAUSE = "com.valdioveliu.valdio.audioplayer.ACTION_PAUSE";
-    public static final String ACTION_PREVIOUS = "com.valdioveliu.valdio.audioplayer.ACTION_PREVIOUS";
-    public static final String ACTION_NEXT = "com.valdioveliu.valdio.audioplayer.ACTION_NEXT";
-    public static final String ACTION_STOP = "com.valdioveliu.valdio.audioplayer.ACTION_STOP";
+    public static final String ACTION_PLAY = "es.deusto.drivestreamer.ACTION_PLAY";
+    public static final String ACTION_PAUSE = "es.deusto.drivestreamer.ACTION_PAUSE";
+    public static final String ACTION_PREVIOUS = "es.deusto.drivestreamer.ACTION_PREVIOUS";
+    public static final String ACTION_NEXT = "es.deusto.drivestreamer.ACTION_NEXT";
+    public static final String ACTION_STOP = "es.deusto.drivestreamer.ACTION_STOP";
 
     //MediaSession
     private MediaSessionManager mediaSessionManager;
@@ -187,7 +188,7 @@ public class ServicioReproductor extends Service
     }
 
     // Si el reproductorAudio no existe no hace nada, y si se esta reproduciendo lo para
-    private void stopMedia() {
+    protected void stopMedia() {
         if (reproductorAudio == null) return;
         if (reproductorAudio.isPlaying()) {
             reproductorAudio.stop();
@@ -203,7 +204,7 @@ public class ServicioReproductor extends Service
     }
 
     // Reanuda el reproductorAudio en la posicion en la que estaba
-    private void resumeMedia() {
+    protected void resumeMedia() {
         if (!reproductorAudio.isPlaying()) {
             reproductorAudio.seekTo(posicionResumen);
             reproductorAudio.start();
@@ -510,7 +511,7 @@ public class ServicioReproductor extends Service
 
 
 
-    private void skipToNext() {
+    protected void skipToNext() {
 
         if (audioIndex == audioList.size() - 1) {
             //if last in playlist
@@ -530,7 +531,7 @@ public class ServicioReproductor extends Service
         initMediaPlayer();
     }
 
-    private void skipToPrevious() {
+    protected void skipToPrevious() {
 
         if (audioIndex == 0) {
             //if first in playlist
@@ -633,7 +634,7 @@ public class ServicioReproductor extends Service
         return null;
     }
 
-    private void handleIncomingActions(Intent playbackAction) {
+    protected void handleIncomingActions(Intent playbackAction) {
         if (playbackAction == null || playbackAction.getAction() == null) return;
 
         String actionString = playbackAction.getAction();
@@ -651,5 +652,15 @@ public class ServicioReproductor extends Service
     }
 
 
+    public boolean reproduciendo(){
+        if(reproductorAudio.isPlaying()){
+            return true;
+        } else{
+            return false;
+        }
+    }
 
+    public void setAudioList(ArrayList<Audio> audioList) {
+        this.audioList = audioList;
+    }
 }
