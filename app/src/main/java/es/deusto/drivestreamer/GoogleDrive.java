@@ -116,9 +116,7 @@ public abstract class GoogleDrive extends Activity {
         Set<Scope> requiredScopes = new HashSet<>(2);
         requiredScopes.add(Drive.SCOPE_FILE);
         requiredScopes.add(Drive.SCOPE_APPFOLDER);
-        //requiredScopes.add(this.READ_ONLY);
-        GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(this);
-        signInAccount = null;
+        GoogleSignInAccount signInAccount =null;
         if (signInAccount != null && signInAccount.getGrantedScopes().containsAll(requiredScopes)) {
             initializeDriveClient(signInAccount);
         } else {
@@ -126,7 +124,6 @@ public abstract class GoogleDrive extends Activity {
                     new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                             .requestScopes(Drive.SCOPE_FILE)
                             .requestScopes(Drive.SCOPE_APPFOLDER)
-                            //.requestScopes(Drive.SCOPE_APPFOLDER)
                             .build();
             GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(this, signInOptions);
             startActivityForResult(googleSignInClient.getSignInIntent(), REQUEST_CODE_SIGN_IN);

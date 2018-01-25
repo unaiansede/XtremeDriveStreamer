@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="app_name">DriveStreamer</string>
-    <string name="content_loaded">Karpetako edukia irakurri da.</string>
-    <string name="select_folder">Karpeta aukeratu</string>
-    <string name="action_settings">Ezarpenak</string>
-</resources>

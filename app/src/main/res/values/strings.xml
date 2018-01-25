@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">DriveStreamer</string>
+    <string name="app_name">DriveStreamer</string>
 
     <string name="button_subscribe">Listen for Changes</string>
     <string name="button_unsubscribe">Stop Listening for Changes</string>

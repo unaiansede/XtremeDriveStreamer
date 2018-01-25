@@ -8,14 +8,16 @@
 
 
     <ListView
-        android:id="@+id/listaCancionesGDrive"
-        android:layout_width="match_parent"
-        android:layout_height="450dp"></ListView>
-
-    <ListView
         android:id="@+id/listaCanciones"
         android:layout_width="match_parent"
-        android:layout_height="450dp"></ListView>
+        android:layout_height="442sp"></ListView>
+
+    <TextView
+        android:id="@+id/textViewCancion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="25sp"
+    android:text="Cancion en reproduccion" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,29 +27,36 @@
         android:orientation="horizontal">
 
 
-        <Button
+        <ImageButton
             android:id="@+id/botonRewind"
-            style="android.R.drawable.ic_media_previous"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|center"
-            android:text="ATRAS" />
-
-        <Button
-            android:id="@+id/botonPausa"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|center"
-            android:text="·" />
+            android:background="@android:color/holo_red_dark"
+            android:visibility="visible"
+            app:srcCompat="@android:drawable/ic_media_previous" />
 
-        <Button
+        <ImageButton
+            android:id="@+id/botonPausa"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/Next"
+            android:layout_gravity="center_horizontal|center"
+            android:background="@android:color/holo_red_dark"
+            android:visibility="visible"
+            app:srcCompat="@android:drawable/ic_media_play" />
+
+        <ImageButton
             android:id="@+id/botonForward"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|center"
-            android:text=">>" />
+            android:background="@android:color/holo_red_dark"
+            android:visibility="visible"
+            app:srcCompat="@android:drawable/ic_media_next" />
 
         <Button
             android:id="@+id/botonGDrive"
@@ -56,5 +65,13 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|center"
             android:text="GDrive" />
+
+        <Button
+            android:id="@+id/botonDescargarGDrive"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|center"
+            android:text="Descargar desde Drive" />
     </LinearLayout>
 </LinearLayout>

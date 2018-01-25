@@ -70,6 +70,7 @@ public class GoogleDriveDescarga extends GoogleDrive {
 
         FilenameFilter filtro = new FilenameFilter() {
             @Override public boolean accept(File dir, String name) {
+                Log.d(TAG,name);
                 if(name == nomAudio){
                     return true;
                 } else{
@@ -114,16 +115,7 @@ public class GoogleDriveDescarga extends GoogleDrive {
                     }).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
-                    MediaPlayer mp = new MediaPlayer();
 
-                    try {
-                        audiotemp.setReadable(true, false);
-                        mp.setDataSource(audiotemp.getAbsolutePath());
-                        mp.prepare();
-                        mp.start();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
                     finish();
                 }
             }).addOnFailureListener(new OnFailureListener() {
@@ -137,17 +129,8 @@ public class GoogleDriveDescarga extends GoogleDrive {
         }else{
 
             Log.d(TAG,"No se ha tenido que descargar el archivo porque ya estaba en cache");
-            MediaPlayer mp = new MediaPlayer();
-
-            try {
-                audiotemp.setReadable(true, false);
-                mp.setDataSource(audiotemp.getAbsolutePath());
-                mp.prepare();
-                mp.start();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
             finish();
+
         }
 
 

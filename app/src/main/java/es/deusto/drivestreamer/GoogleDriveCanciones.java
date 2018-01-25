@@ -45,62 +45,52 @@ public class GoogleDriveCanciones extends Activity {
 
     final static String TAG ="GoogleDriveCanciones";
 
-    protected static ArrayList<Audio> listaCanciones;
-    protected static ListView listaView;
+    protected static ArrayList<Audio> listaCanciones = new ArrayList<Audio>();
+    protected static ArrayList<String> nombreCanciones;
+    private String path;
 
     @Override
     public void onCreate(Bundle b ){
         super.onCreate(b);
         //setContentView(R.layout.activity_main);
         this.loadAudio();
-        //listaView = (ListView) findViewById(R.id.listaCancionesGDrive);
-
-        final ArrayList<String> nombreCanciones = new ArrayList<>();
-
-        for(int i = 0;i<listaCanciones.size();i++){
-            nombreCanciones.add(listaCanciones.get(i).getTitle());
-
-        }
-
-        final ArrayAdapter adaptador = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, nombreCanciones);
-        if(listaView == null){
-            Log.d(TAG,"vista nula");
-        } else if(adaptador == null){
-            Log.d(TAG,"adaptador nulo");
-        }
-        listaView.setAdapter(adaptador);
-
-        listaView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                //playAudio(position);
-                Log.d(TAG,position + "");
-            }
-        });
 
    }
+
+    public GoogleDriveCanciones(String path) {
+        listaCanciones = new ArrayList<Audio>();
+        nombreCanciones = new ArrayList<String>();
+        this.path = path;
+    }
+
+    public GoogleDriveCanciones(){
+        listaCanciones = new ArrayList<Audio>();
+        nombreCanciones = new ArrayList<String>();
+    }
 
     protected void loadAudio() {
 
         listaCanciones = new ArrayList<Audio>();
+        nombreCanciones = new ArrayList<String>();
 
-        String path = getCacheDir().getPath();
         Log.d("Files", "Path: " + path);
         File directory = new File(path);
         File[] files = directory.listFiles();
-        Log.d("Files", "Size: " + files.length);
-        for (int i = 0; i < files.length; i++) {
+        //Log.d("Files", "Size: " + files.length);
+        for (int i = 0; i < files.length ; i++) {
             Log.d("Files", "FileName:" + files[i].getName());
 
                     String data = files[i].getAbsolutePath();
                     String title = files[i].getName();
                     String album = null;
                     String artist = null;
-
                     // Guardar en listaCanciones
-                    listaCanciones.add(new Audio(data, title, album, artist));
-                }
+            if(!title.equals("reload0x0000.dex")) {
+                listaCanciones.add(new Audio(data, title, album, artist));
+                nombreCanciones.add(title);
+            }
+        }
+                Log.d(TAG,"tamaño gdrive " + nombreCanciones.size());
     }
 
 

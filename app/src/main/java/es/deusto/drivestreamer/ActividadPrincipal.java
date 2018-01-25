@@ -22,6 +22,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.* ;
@@ -55,9 +56,15 @@ public class ActividadPrincipal extends AppCompatActivity {
     private static final String TAG = "Conectarse a drive";
     protected static ServicioReproductor reproductor;
     boolean servicioConectado = false;
-    protected static ArrayList<Audio> listaCanciones;
+    protected static ArrayList<Audio> listaCanciones =new ArrayList<Audio>();
     public static final String Broadcast_PLAY_NEW_AUDIO = "es.deusto.drivestreamer.PlayNewAudio";
     protected static ListView listView;
+    protected static ArrayList<String> nombreCanciones = new ArrayList<>();
+    protected static ArrayList<String> nombreCancionesReproductor = new ArrayList<>();
+    protected static ArrayAdapter adaptador;
+    protected static  Button botonGDrive;
+    protected GoogleDriveCanciones gDrive;
+    protected TextView textViewCancion;
 
 
     @Override
@@ -66,45 +73,25 @@ public class ActividadPrincipal extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         loadAudio();
+        gDrive = new GoogleDriveCanciones(getCacheDir().getPath());
+        gDrive.loadAudio();
         cargarVistaCanciones();
 
-
-
-        //Intent intent = new Intent(getBaseContext(), GoogleDriveListaArchivos.class);
-        //startActivity(intent);
-
-        /*final ImageButton buttonOne = (ImageButton) findViewById(R.id.Play);
-        buttonOne.setOnClickListener(new ImageButton.OnClickListener() {
-            public void onClick(View v) {
-                if(true) {
-
-                }
-
-            }
-        });
-        */
-
-        //loadAudio();
-        //playAudio(5);
-
-        //play the first audio in the ArrayList
-        //playAudio(listaCanciones.get(0).getData());
 
     }
 
 
     public void cargarVistaCanciones(){
         listView = (ListView) findViewById(R.id.listaCanciones);
-        GoogleDriveCanciones.listaView = (ListView) findViewById(R.id.listaCancionesGDrive);
-
-        final ArrayList<String> nombreCanciones = new ArrayList<>();
+        textViewCancion = (TextView) findViewById(R.id.textViewCancion);
 
         for(int i = 0;i<listaCanciones.size();i++){
             nombreCanciones.add(listaCanciones.get(i).getTitle());
 
         }
+        nombreCancionesReproductor=new ArrayList<>(nombreCanciones);
 
-        final ArrayAdapter adaptador = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, nombreCanciones);
+        adaptador = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, nombreCancionesReproductor);
         listView.setAdapter(adaptador);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -115,14 +102,14 @@ public class ActividadPrincipal extends AppCompatActivity {
             }
         });
 
-        Button botonRewind = (Button) findViewById(R.id.botonRewind);
+        ImageButton botonRewind = (ImageButton) findViewById(R.id.botonRewind);
         botonRewind.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
                reproductor.skipToPrevious();
             }
         });
 
-        Button botonPausa = (Button) findViewById(R.id.botonPausa);
+        ImageButton botonPausa = (ImageButton) findViewById(R.id.botonPausa);
         botonPausa.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
                 if(reproductor.reproduciendo()){
@@ -133,32 +120,45 @@ public class ActividadPrincipal extends AppCompatActivity {
             }
         });
 
-        Button botonForward = (Button) findViewById(R.id.botonForward);
+        ImageButton botonForward = (ImageButton) findViewById(R.id.botonForward);
         botonForward.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
                 reproductor.skipToNext();
             }
         });
 
-        Button botonGDrive = (Button) findViewById(R.id.botonGDrive);
-        botonGDrive.setOnClickListener(new Button.OnClickListener() {
+        Button botonDescargarGDrive = (Button) findViewById(R.id.botonDescargarGDrive);
+        botonDescargarGDrive.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
-                if(findViewById(R.id.listaCanciones).isShown()) {
-                    reproductor.setAudioList(GoogleDriveCanciones.listaCanciones);
-                    findViewById(R.id.listaCanciones).setVisibility(View.INVISIBLE);
-                    findViewById(R.id.listaCancionesGDrive).setVisibility(View.VISIBLE);
-                }else{
-                    reproductor.setAudioList(listaCanciones);
-                    findViewById(R.id.listaCanciones).setVisibility(View.VISIBLE);
-                    findViewById(R.id.listaCancionesGDrive).setVisibility(View.INVISIBLE);
-                }
+                Intent intent = new Intent(getBaseContext(), GoogleDriveDescarga.class);
+                startActivity(intent);
             }
         });
 
-        //Intent intent = new Intent(getBaseContext(), GoogleDriveCanciones.class);
-        //startActivity(intent);
-        findViewById(R.id.listaCancionesGDrive).setVisibility(View.INVISIBLE);
+        botonGDrive = (Button) findViewById(R.id.botonGDrive);
+        botonGDrive.setText("GDrive");
+        botonGDrive.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                adaptador.clear();
+                if(botonGDrive.getText() == "GDrive"){
+                    gDrive.loadAudio();
+                    if(servicioConectado) {
+                        reproductor.setAudioList(GoogleDriveCanciones.listaCanciones);
+                    }
+                    nombreCancionesReproductor = new ArrayList<>(GoogleDriveCanciones.nombreCanciones);
+                    adaptador.addAll(nombreCancionesReproductor);
+                    botonGDrive.setText("Local");
+                }else {
+                    if (servicioConectado) {
+                        reproductor.setAudioList(ActividadPrincipal.listaCanciones);
+                    }
+                    nombreCancionesReproductor = new ArrayList<>(ActividadPrincipal.nombreCanciones);
+                    adaptador.addAll(nombreCancionesReproductor);
+                    botonGDrive.setText("GDrive");
+                }
 
+            }
+        });
     }
 
 
@@ -181,11 +181,16 @@ public class ActividadPrincipal extends AppCompatActivity {
     };
 
     private void playAudio(int audioIndex) {
+        textViewCancion.setText(nombreCancionesReproductor.get(audioIndex));
         // Comprueba si el servicio esta activo y lo inicia si no esta
         if (!servicioConectado ) {
             //Store Serializable audioList to SharedPreferences
             UtilidadAlmacenamiento storage = new UtilidadAlmacenamiento(getApplicationContext());
-            storage.storeAudio(listaCanciones);
+            if(botonGDrive.getText() == "GDrive") {
+                storage.storeAudio(listaCanciones);
+            } else{
+                storage.storeAudio(GoogleDriveCanciones.listaCanciones);
+            }
             storage.storeAudioIndex(audioIndex);
 
             Intent playerIntent = new Intent(this, ServicioReproductor.class);

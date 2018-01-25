@@ -29,7 +29,7 @@ public class Playlist {
         String[] parts= s.split("/");
         this.Nombre=parts[0];
         this.Id=parts[1];
-        this.Canciones=parts[3];
+        //this.Canciones=parts[3];
 
 
 
